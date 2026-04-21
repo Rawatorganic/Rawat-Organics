@@ -26,7 +26,7 @@ const categories = [
     imgAlt: 'Turmeric and powder spices',
     badge: 'Premium',
     badgeIcon: 'workspace_premium',
-    href: '/powder-spices',
+    href: '/product',
     bg: 'bg-yellow-950/10',
   },
   {

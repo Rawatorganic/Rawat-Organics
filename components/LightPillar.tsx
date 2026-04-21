@@ -15,7 +15,6 @@ interface LightPillarProps {
   mixBlendMode?: React.CSSProperties['mixBlendMode'];
   pillarRotation?: number;
   quality?: 'low' | 'medium' | 'high';
-  scrollProgressRef?: React.MutableRefObject<number>;
 }
 
 const LightPillar: React.FC<LightPillarProps> = ({
@@ -31,8 +30,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
   noiseIntensity = 0.5,
   mixBlendMode = 'screen',
   pillarRotation = 0,
-  quality = 'high',
-  scrollProgressRef,
+  quality = 'high'
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -44,7 +42,6 @@ const LightPillar: React.FC<LightPillarProps> = ({
   const mouseRef = useRef<THREE.Vector2>(new THREE.Vector2(0, 0));
   const timeRef = useRef(0);
   const rotationSpeedRef = useRef(rotationSpeed);
-  const pillarWidthRef = useRef(pillarWidth);
   const [webGLSupported, setWebGLSupported] = useState<boolean>(true);
 
   // Check WebGL support
@@ -67,13 +64,19 @@ const LightPillar: React.FC<LightPillarProps> = ({
     const isLowEndDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
 
     let effectiveQuality = quality;
-    if (isMobile) effectiveQuality = 'low';
-    else if (isLowEndDevice && quality === 'high') effectiveQuality = 'medium';
+    if (isLowEndDevice && quality === 'high') effectiveQuality = 'medium';
+    if (isMobile && quality !== 'low') effectiveQuality = 'low';
 
     const qualitySettings = {
-      low:    { iterations: 28, waveIterations: 1, pixelRatio: 0.6,  precision: 'mediump', stepMultiplier: 1.5 },
-      medium: { iterations: 36, waveIterations: 2, pixelRatio: 0.75, precision: 'mediump', stepMultiplier: 1.2 },
-      high:   { iterations: 60, waveIterations: 3, pixelRatio: Math.min(window.devicePixelRatio, 1.5), precision: 'highp', stepMultiplier: 1.0 },
+      low: { iterations: 24, waveIterations: 1, pixelRatio: 0.5, precision: 'mediump', stepMultiplier: 1.5 },
+      medium: { iterations: 40, waveIterations: 2, pixelRatio: 0.65, precision: 'mediump', stepMultiplier: 1.2 },
+      high: {
+        iterations: 80,
+        waveIterations: 4,
+        pixelRatio: Math.min(window.devicePixelRatio, 2),
+        precision: 'highp',
+        stepMultiplier: 1.0
+      }
     };
 
     const settings = qualitySettings[effectiveQuality] || qualitySettings.medium;
@@ -314,7 +317,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
 
     // Animation loop with fixed timestep
     let lastTime = performance.now();
-    const targetFPS = effectiveQuality === 'high' ? 60 : 30;
+    const targetFPS = effectiveQuality === 'low' ? 30 : 60;
     const frameTime = 1000 / targetFPS;
 
     const animate = (currentTime: number) => {
@@ -323,16 +326,8 @@ const LightPillar: React.FC<LightPillarProps> = ({
       const deltaTime = currentTime - lastTime;
 
       if (deltaTime >= frameTime) {
-        const progress = scrollProgressRef ? scrollProgressRef.current : 0;
-        const scrollBoost = 1 + progress * 9;
-        timeRef.current += 0.016 * rotationSpeedRef.current * scrollBoost;
+        timeRef.current += 0.016 * rotationSpeedRef.current;
         materialRef.current.uniforms.uTime.value = timeRef.current;
-
-        // Scroll-driven width increase
-        if (scrollProgressRef) {
-          materialRef.current.uniforms.uPillarWidth.value =
-            pillarWidthRef.current * (1 + progress * 1.4);
-        }
 
         // Pre-compute rotation on CPU
         const rotAngle = timeRef.current * 0.3;
@@ -435,7 +430,6 @@ const LightPillar: React.FC<LightPillarProps> = ({
   }, [glowAmount]);
 
   useEffect(() => {
-    pillarWidthRef.current = pillarWidth;
     if (!materialRef.current) return;
     materialRef.current.uniforms.uPillarWidth.value = pillarWidth;
   }, [pillarWidth]);
