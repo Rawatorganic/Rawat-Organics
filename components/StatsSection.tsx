@@ -8,22 +8,18 @@ function useCounter(target: number, duration: number, inView: boolean) {
 
   useEffect(() => {
     if (!inView) return
-    let current = 0
-    const steps = 60
-    const increment = target / steps
-    const interval = duration / steps
+    const start = performance.now()
 
-    const timer = setInterval(() => {
-      current += increment
-      if (current >= target) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(current))
-      }
-    }, interval)
-
-    return () => clearInterval(timer)
+    let raf: number
+    const tick = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      setCount(Math.floor(progress * target))
+      if (progress < 1) raf = requestAnimationFrame(tick)
+      else setCount(target)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [inView, target, duration])
 
   return count

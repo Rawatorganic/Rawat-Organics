@@ -71,9 +71,9 @@ const LightPillar: React.FC<LightPillarProps> = ({
     else if (isLowEndDevice && quality === 'high') effectiveQuality = 'medium';
 
     const qualitySettings = {
-      low:    { iterations: 28, waveIterations: 1, pixelRatio: 0.6,  precision: 'mediump', stepMultiplier: 1.5 },
+      low: { iterations: 28, waveIterations: 1, pixelRatio: 0.6, precision: 'mediump', stepMultiplier: 1.5 },
       medium: { iterations: 36, waveIterations: 2, pixelRatio: 0.75, precision: 'mediump', stepMultiplier: 1.2 },
-      high:   { iterations: 60, waveIterations: 3, pixelRatio: Math.min(window.devicePixelRatio, 1.5), precision: 'highp', stepMultiplier: 1.0 },
+      high: { iterations: 60, waveIterations: 3, pixelRatio: Math.min(window.devicePixelRatio, 1.5), precision: 'highp', stepMultiplier: 1.0 },
     };
 
     const settings = qualitySettings[effectiveQuality] || qualitySettings.medium;
@@ -316,22 +316,31 @@ const LightPillar: React.FC<LightPillarProps> = ({
     let lastTime = performance.now();
     const targetFPS = effectiveQuality === 'high' ? 60 : 30;
     const frameTime = 1000 / targetFPS;
+    let isVisible = true;
 
     const animate = (currentTime: number) => {
-      if (!materialRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return;
+      if (!materialRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) {
+        rafRef.current = null;
+        return;
+      }
+      if (!isVisible) {
+        rafRef.current = null;
+        return;
+      }
 
       const deltaTime = currentTime - lastTime;
 
       if (deltaTime >= frameTime) {
         const progress = scrollProgressRef ? scrollProgressRef.current : 0;
-        const scrollBoost = 1 + progress * 9;
+        // Capped from 9 → 1 to prevent exponential GPU work as user scrolls
+        const scrollBoost = 1 + progress;
         timeRef.current += 0.016 * rotationSpeedRef.current * scrollBoost;
         materialRef.current.uniforms.uTime.value = timeRef.current;
 
-        // Scroll-driven width increase
+        // Subtle scroll-driven width increase (was 1.4 — caused heavy shader work)
         if (scrollProgressRef) {
           materialRef.current.uniforms.uPillarWidth.value =
-            pillarWidthRef.current * (1 + progress * 1.4);
+            pillarWidthRef.current * (1 + progress * 0.3);
         }
 
         // Pre-compute rotation on CPU
@@ -345,6 +354,18 @@ const LightPillar: React.FC<LightPillarProps> = ({
 
       rafRef.current = requestAnimationFrame(animate);
     };
+
+    // Pause WebGL rendering when the canvas scrolls out of view
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      const wasVisible = isVisible;
+      isVisible = entries[0].isIntersecting;
+      if (isVisible && !wasVisible && rafRef.current === null) {
+        lastTime = performance.now();
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    }, { threshold: 0 });
+    visibilityObserver.observe(container);
+
     rafRef.current = requestAnimationFrame(animate);
 
     // Handle resize with debouncing
@@ -367,6 +388,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
 
     // Cleanup
     return () => {
+      visibilityObserver.disconnect();
       window.removeEventListener('resize', handleResize);
       if (interactive) {
         container.removeEventListener('mousemove', handleMouseMove);
