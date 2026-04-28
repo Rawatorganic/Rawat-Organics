@@ -1,5 +1,7 @@
 'use client'
 
+import { FOOTER } from '@/lib/constants'
+
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
@@ -8,9 +10,9 @@ export default function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 px-12 py-24">
         {/* Brand */}
         <div className="space-y-6">
-          <div className="text-2xl font-headline font-black text-emerald-50">Rawat Organics</div>
+          <div className="text-2xl font-headline font-black text-emerald-50">{FOOTER.brand}</div>
           <p className="text-emerald-50/70 text-sm tracking-wide leading-relaxed">
-            Cultivating the essence of nature through ancient wisdom and modern precision.
+            {FOOTER.description}
           </p>
           <div className="flex gap-3">
             {['instagram', 'linkedin', 'twitter'].map((social) => (
@@ -36,7 +38,7 @@ export default function Footer() {
         <div className="space-y-6">
           <h5 className="text-emerald-50 font-bold uppercase tracking-widest text-xs">Explore</h5>
           <ul className="space-y-4">
-            {['Sustainability', 'Press', 'Legal', 'Privacy'].map((item) => (
+            {FOOTER.exploreLinks.map((item) => (
               <li key={item}>
                 <a
                   href="#"
@@ -53,7 +55,7 @@ export default function Footer() {
         <div className="space-y-6">
           <h5 className="text-emerald-50 font-bold uppercase tracking-widest text-xs">Connect</h5>
           <ul className="space-y-4">
-            {['Instagram', 'LinkedIn', 'Twitter'].map((item) => (
+            {FOOTER.connectLinks.map((item) => (
               <li key={item}>
                 <a
                   href="#"
@@ -70,27 +72,27 @@ export default function Footer() {
         <div className="space-y-6">
           <h5 className="text-emerald-50 font-bold uppercase tracking-widest text-xs">Atelier Location</h5>
           <p className="text-emerald-50/70 text-sm leading-relaxed">
-            The Highland Estates,<br />
-            Plot 12, Valley Route,<br />
-            Organic Meadows, UK
+            {FOOTER.location.map((line, i) => (
+              <span key={i}>{line}{i < FOOTER.location.length - 1 && <br />}</span>
+            ))}
           </p>
           <a
-            href="mailto:hello@rawatorganics.com"
+            href={`mailto:${FOOTER.email}`}
             className="text-emerald-50/70 hover:text-emerald-50 text-sm transition-colors"
           >
-            hello@rawatorganics.com
+            {FOOTER.email}
           </a>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="px-12 py-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-emerald-50/50">
-        <span>© 2024 Rawat Organics. Cultivating Essence.</span>
+        <span>{FOOTER.copyright}</span>
         <button
           onClick={scrollToTop}
           className="flex items-center gap-2 hover:text-white transition-colors duration-200"
         >
-          Back to top
+          {FOOTER.backToTop}
           <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>arrow_upward</span>
         </button>
       </div>

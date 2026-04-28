@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import Image from 'next/image'
+import { CTA_SECTION } from '@/lib/constants'
 
 export default function CTASection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -37,10 +38,10 @@ export default function CTASection() {
         {/* Content */}
         <div className="relative z-10 px-8 py-24 text-center flex flex-col items-center">
           <h2 className="text-white font-headline font-extrabold text-4xl md:text-6xl mb-6 max-w-3xl">
-            Join the Conscious Community
+            {CTA_SECTION.heading}
           </h2>
           <p className="text-white/70 text-lg mb-12 max-w-xl mx-auto">
-            Receive updates on our harvests, seasonal offerings, and botanical wisdom.
+            {CTA_SECTION.subtitle}
           </p>
 
           {submitted ? (
@@ -52,7 +53,7 @@ export default function CTASection() {
               <span className="material-symbols-outlined text-primary-fixed" style={{ fontVariationSettings: "'FILL' 1" }}>
                 check_circle
               </span>
-              <span className="font-headline font-semibold">Thank you! We&apos;ll be in touch.</span>
+              <span className="font-headline font-semibold">{CTA_SECTION.successMessage}</span>
             </motion.div>
           ) : (
             <form
@@ -64,14 +65,14 @@ export default function CTASection() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
+                placeholder={CTA_SECTION.emailPlaceholder}
                 className="flex-grow bg-white/10 border border-white/20 text-white placeholder:text-white/40 px-6 py-4 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-fixed transition-all"
               />
               <button
                 type="submit"
                 className="bg-white text-primary px-10 py-4 rounded-full font-headline font-bold hover:bg-surface-container-highest transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                Subscribe
+                {CTA_SECTION.submitLabel}
               </button>
             </form>
           )}
