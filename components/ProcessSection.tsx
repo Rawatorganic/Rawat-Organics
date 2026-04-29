@@ -2,37 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-
-const steps = [
-  {
-    number: '01',
-    icon: 'water_drop',
-    title: 'Sow',
-    description:
-      'Heirloom seeds are planted in mineral-rich, untreated soil under the open sky — no shortcuts, no synthetics.',
-  },
-  {
-    number: '02',
-    icon: 'wb_sunny',
-    title: 'Grow',
-    description:
-      'Nurtured through natural rainfall and ancient rotational farming cycles that restore, not deplete, the land.',
-  },
-  {
-    number: '03',
-    icon: 'front_hand',
-    title: 'Harvest',
-    description:
-      'Hand-picked at precise peak potency by skilled farmers who understand that timing is everything.',
-  },
-  {
-    number: '04',
-    icon: 'package_2',
-    title: 'Deliver',
-    description:
-      'Cold-processed and sealed fresh at our atelier, shipped directly to your door without compromise.',
-  },
-]
+import { PROCESS_SECTION, PROCESS_STEPS } from '@/lib/constants'
 
 export default function ProcessSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -51,11 +21,11 @@ export default function ProcessSection() {
             transition={{ duration: 0.8 }}
           >
             <span className="text-primary-fixed-dim font-headline font-bold tracking-[0.2em] uppercase text-sm mb-4 block opacity-60">
-              Our Process
+              {PROCESS_SECTION.eyebrow}
             </span>
             <h2 className="text-primary-fixed font-headline font-extrabold text-4xl md:text-6xl leading-tight">
-              From Earth{' '}
-              <span className="font-light italic text-primary-fixed/70">to Table</span>
+              {PROCESS_SECTION.headingStart}{' '}
+              <span className="font-light italic text-primary-fixed/70">{PROCESS_SECTION.headingHighlight}</span>
             </h2>
           </motion.div>
           <motion.p
@@ -64,7 +34,7 @@ export default function ProcessSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.15 }}
           >
-            Every step is a deliberate act of care — from the seed we choose to the seal on your package.
+            {PROCESS_SECTION.subtitle}
           </motion.p>
         </div>
 
@@ -82,7 +52,7 @@ export default function ProcessSection() {
             transition={{ duration: 1.4, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           />
 
-          {steps.map((step, i) => (
+          {PROCESS_STEPS.map((step, i) => (
             <motion.div
               key={step.number}
               className="relative flex flex-col px-8 pb-12 pt-0 group border-b lg:border-b-0 lg:border-r border-primary-container/30 last:border-0"

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { BRAND, NAV_LINKS, NAV_CTA } from '@/lib/constants'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -14,8 +15,6 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      // On home page, wait until past hero before showing backdrop
-      // On inner pages, always show backdrop
       setScrolled(!isHome || window.scrollY > window.innerHeight * 1.75)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -23,13 +22,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [isHome])
 
-  const links = [
-    { label: 'Home', href: '/' },
-    { label: 'Whole Spices', href: '/whole-spices' },
-    { label: 'Powder Spices', href: '/powder-spices' },
-    { label: 'Our Story', href: isHome ? '#story' : '/#story' },
-    { label: 'Contact', href: isHome ? '#contact' : '/#contact' },
-  ]
+  const links = NAV_LINKS.map((link) => {
+    if (link.href === '#story') return { ...link, href: isHome ? '#story' : '/#story' }
+    return link
+  })
 
   const isActive = (href: string) =>
     href !== '/' && pathname.startsWith(href.replace('#', '').split('#')[0])
@@ -53,7 +49,7 @@ export default function Navbar() {
             scrolled ? 'text-primary' : 'text-white'
           }`}
         >
-          Rawat Organic
+          {BRAND.name}
         </Link>
 
         {/* Desktop links */}
@@ -90,7 +86,7 @@ export default function Navbar() {
                 : 'bg-white/15 text-white border border-white/25 hover:bg-white/25 backdrop-blur-sm'
             }`}
           >
-            Inquire
+            {NAV_CTA}
           </Link>
 
           {/* Hamburger */}

@@ -2,44 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-
-const testimonials = [
-  {
-    quote:
-      'The aromatic quality of their heritage spices is unmatched. It\'s like cooking with the soul of the earth — every dish becomes a ceremony.',
-    name: 'Eleanor Vance',
-    role: 'Culinary Director',
-    initial: 'EV',
-  },
-  {
-    quote:
-      'Finding true organic authenticity is rare in today\'s market. Rawat Organics is my primary source for all botanical essentials, and I trust them completely.',
-    name: 'Julian Thorne',
-    role: 'Wellness Practitioner',
-    initial: 'JT',
-  },
-  {
-    quote:
-      'Their commitment to regenerative farming is genuinely inspiring. You can actually taste the difference — the grains are alive in a way that commercial brands simply aren\'t.',
-    name: 'Dr. Amara Singh',
-    role: 'Environmental Scientist',
-    initial: 'AS',
-  },
-  {
-    quote:
-      'I\'ve sourced spices from across the world, but Rawat\'s coriander and fennel seeds are exceptional. Pure, potent, and perfectly packed.',
-    name: 'Marco Bellini',
-    role: 'Executive Chef',
-    initial: 'MB',
-  },
-  {
-    quote:
-      'As someone deeply invested in Ayurvedic practice, I demand purity. Rawat Organics delivers on every promise — no compromise, no shortcuts.',
-    name: 'Priya Nair',
-    role: 'Ayurvedic Practitioner',
-    initial: 'PN',
-  },
-]
+import { TESTIMONIALS_SECTION, TESTIMONIALS } from '@/lib/constants'
 
 function Stars() {
   return (
@@ -69,10 +32,10 @@ export default function TestimonialsSection() {
 
   const go = (dir: number) => {
     setDirection(dir)
-    setIndex((prev) => (prev + dir + testimonials.length) % testimonials.length)
+    setIndex((prev) => (prev + dir + TESTIMONIALS.length) % TESTIMONIALS.length)
   }
 
-  const current = testimonials[index]
+  const current = TESTIMONIALS[index]
 
   return (
     <section className="py-32 bg-surface overflow-hidden">
@@ -81,11 +44,11 @@ export default function TestimonialsSection() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
           <div>
             <span className="text-secondary font-headline font-bold tracking-[0.2em] uppercase text-sm mb-4 block">
-              Voices
+              {TESTIMONIALS_SECTION.eyebrow}
             </span>
             <h2 className="text-primary font-headline font-extrabold text-4xl md:text-5xl leading-tight">
-              The Conscious{' '}
-              <span className="font-light italic">Voice</span>
+              {TESTIMONIALS_SECTION.headingStart}{' '}
+              <span className="font-light italic">{TESTIMONIALS_SECTION.headingHighlight}</span>
             </h2>
           </div>
 
@@ -101,7 +64,7 @@ export default function TestimonialsSection() {
               </span>
             </button>
             <span className="font-headline text-sm text-on-surface/40 tabular-nums min-w-[3rem] text-center">
-              {index + 1} / {testimonials.length}
+              {index + 1} / {TESTIMONIALS.length}
             </span>
             <button
               onClick={() => go(1)}
@@ -152,7 +115,7 @@ export default function TestimonialsSection() {
 
         {/* Dot indicators */}
         <div className="flex justify-center gap-2 mt-10">
-          {testimonials.map((_, i) => (
+          {TESTIMONIALS.map((_, i) => (
             <button
               key={i}
               onClick={() => { setDirection(i > index ? 1 : -1); setIndex(i) }}

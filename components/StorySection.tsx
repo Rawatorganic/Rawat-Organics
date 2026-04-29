@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion'
 import BlurText from './ui/BlurText'
 import { useRef } from 'react'
 import Image from 'next/image'
+import { STORY } from '@/lib/constants'
 
 export default function StorySection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -46,11 +47,11 @@ export default function StorySection() {
               className="text-secondary font-headline font-bold tracking-[0.2em] uppercase text-sm mb-6 block"
               {...fadeUp(0.1)}
             >
-              Our Legacy
+              {STORY.eyebrow}
             </motion.span>
 
             <BlurText
-              text="The Rawat Story: A Botanical Atelier"
+              text={STORY.heading}
               className="text-primary font-headline font-extrabold text-4xl md:text-5xl mb-8 leading-tight"
               delay={110}
               animateBy="words"
@@ -61,22 +62,15 @@ export default function StorySection() {
               className="space-y-6 text-on-surface/80 text-lg leading-relaxed max-w-xl"
               {...fadeUp(0.3)}
             >
-              <p>
-                Founded on the principles of regenerative alchemy, Rawat Organics
-                is more than a farm. It is a sanctuary where ancestral wisdom meets
-                modern sustainability.
-              </p>
-              <p>
-                Every seed we plant and every oil we press is a testament to our
-                commitment to the earth&apos;s rhythm. We believe that true luxury
-                lies in the purity of the process and the integrity of the soil.
-              </p>
+              {STORY.paragraphs.map((text, i) => (
+                <p key={i}>{text}</p>
+              ))}
               <div className="pt-8">
                 <a
                   href="#collection"
                   className="inline-flex items-center gap-3 text-primary font-headline font-bold border-b-2 border-primary pb-1 hover:gap-5 transition-all duration-300"
                 >
-                  Discover Our Heritage{' '}
+                  {STORY.cta}{' '}
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </a>
               </div>

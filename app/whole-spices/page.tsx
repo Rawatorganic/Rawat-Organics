@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { wholeSpices } from '@/lib/products'
 import Navbar from '@/components/Navbar'
+import { WHOLE_SPICES_PAGE } from '@/lib/constants'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -45,11 +46,11 @@ export default function WholeSpicesPage() {
         >
           <div className="bg-[#021c10]/75 backdrop-blur-xl border border-white/10 rounded-2xl p-8">
             <span className="text-primary-fixed/50 font-headline font-bold tracking-[0.25em] uppercase text-xs mb-3 block">
-              Our Whole Spices
+              {WHOLE_SPICES_PAGE.hero.eyebrow}
             </span>
             <h1 className="text-primary-fixed font-headline font-extrabold text-4xl md:text-5xl leading-tight mb-4">
-              Nature&apos;s Botanicals,<br />
-              <span className="font-light italic">Unaltered.</span>
+              {WHOLE_SPICES_PAGE.hero.headingLine1}<br />
+              <span className="font-light italic">{WHOLE_SPICES_PAGE.hero.headingHighlight}</span>
             </h1>
             <p className="text-primary-fixed/65 text-sm leading-relaxed">
               Hand-harvested and sun-dried, preserving essential oils and vibrant aromatics across {wholeSpices.length} varieties.
@@ -63,7 +64,7 @@ export default function WholeSpicesPage() {
           className="absolute top-24 left-8 md:left-16 inline-flex items-center gap-2 text-white/60 hover:text-white text-sm font-headline transition-colors bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10"
         >
           <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>arrow_back</span>
-          Back to Home
+          {WHOLE_SPICES_PAGE.hero.backLabel}
         </Link>
       </section>
 
@@ -79,10 +80,11 @@ export default function WholeSpicesPage() {
           >
             <div>
               <span className="text-primary/50 font-headline font-bold tracking-[0.25em] uppercase text-xs mb-3 block">
-                Rawat Organics
+                {WHOLE_SPICES_PAGE.collection.eyebrow}
               </span>
               <h2 className="text-primary font-headline font-extrabold text-4xl md:text-5xl">
-                The <span className="font-light italic">Collection</span>
+                {WHOLE_SPICES_PAGE.collection.headingStart}{' '}
+                <span className="font-light italic">{WHOLE_SPICES_PAGE.collection.headingHighlight}</span>
               </h2>
             </div>
             <p className="text-on-surface/50 font-headline text-sm max-w-xs leading-relaxed">
@@ -139,7 +141,7 @@ export default function WholeSpicesPage() {
                               style={{ backgroundColor: `${spice.color}25`, color: spice.color, border: `1px solid ${spice.color}40` }}
                             >
                               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: spice.color }} />
-                              Whole Spice
+                              {WHOLE_SPICES_PAGE.collection.cardBadge}
                             </span>
 
                             <span className="material-symbols-outlined text-white/0 group-hover:text-white/80 -translate-x-2 translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500" style={{ fontSize: '22px' }}>
@@ -156,7 +158,7 @@ export default function WholeSpicesPage() {
                               {spice.description}
                             </p>
                             <div className="mt-5 inline-flex items-center gap-2 text-white/70 group-hover:text-white font-headline font-semibold text-xs tracking-wider uppercase transition-colors duration-300">
-                              View Details
+                              {WHOLE_SPICES_PAGE.collection.viewDetails}
                               <span className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-1" style={{ fontSize: '14px' }}>arrow_forward</span>
                             </div>
                           </div>
@@ -183,16 +185,16 @@ export default function WholeSpicesPage() {
             format_quote
           </span>
           <h2 className="text-3xl md:text-5xl font-headline italic text-primary-fixed leading-tight mb-8">
-            &ldquo;The journey of a thousand flavors begins with a single, unaltered whole spice.&rdquo;
+            &ldquo;{WHOLE_SPICES_PAGE.quote.text.replace(/^"|"$/g, '')}&rdquo;
           </h2>
           <p className="font-headline tracking-widest uppercase text-xs text-primary-fixed/40 mb-12">
-            — The Rawat Philosophy
+            {WHOLE_SPICES_PAGE.quote.attribution}
           </p>
           <a
-            href="mailto:hello@rawatorganics.com?subject=Wholesale Inquiry — Whole Spices"
+            href={WHOLE_SPICES_PAGE.quote.ctaHref}
             className="inline-flex items-center gap-3 px-10 py-4 bg-primary-fixed text-primary font-headline font-bold rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-2xl"
           >
-            Inquire for Wholesale
+            {WHOLE_SPICES_PAGE.quote.ctaLabel}
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>north_east</span>
           </a>
         </div>

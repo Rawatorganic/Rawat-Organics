@@ -5,53 +5,7 @@ import { useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import SpotlightCard from './ui/SpotlightCard'
-
-const categories = [
-  {
-    title: 'Whole Spices',
-    description:
-      'Unground and aromatic, our whole spices are preserved in their natural form — offering intense, authentic flavors and maximum shelf life.',
-    imgSrc: '/products/coriander.png',
-    imgAlt: 'Organic coriander whole spices',
-    badge: 'Best Sellers',
-    badgeIcon: 'star',
-    href: '/whole-spices',
-    bg: 'bg-amber-950/10',
-  },
-  {
-    title: 'Powder Spices',
-    description:
-      'Finely ground, vibrant, and potent — our spice powders blend seamlessly to create bold color and deep flavor in every dish.',
-    imgSrc: '/products/turmeric.png',
-    imgAlt: 'Turmeric and powder spices',
-    badge: 'Premium',
-    badgeIcon: 'workspace_premium',
-    href: '/powder-spices',
-    bg: 'bg-yellow-950/10',
-  },
-  {
-    title: 'Seeds & Grains',
-    description:
-      'Heirloom seeds harvested at peak potency — rich in nutrition and bursting with the earthy vitality of regenerative soil.',
-    imgSrc: '/products/fennel.png',
-    imgAlt: 'Fennel seeds and heritage grains',
-    badge: 'Heritage',
-    badgeIcon: 'eco',
-    href: '/product',
-    bg: 'bg-green-950/10',
-  },
-  {
-    title: 'Blends & Mixes',
-    description:
-      'Expertly crafted spice blends born from generations of culinary tradition, balanced for perfection in every pinch.',
-    imgSrc: '/products/spice-mix.png',
-    imgAlt: 'Curated spice blends and mixes',
-    badge: 'New Arrival',
-    badgeIcon: 'new_releases',
-    href: '/product',
-    bg: 'bg-rose-950/10',
-  },
-]
+import { COLLECTION_SECTION, CATEGORIES } from '@/lib/constants'
 
 export default function CollectionSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -68,11 +22,11 @@ export default function CollectionSection() {
             transition={{ duration: 0.8 }}
           >
             <span className="text-secondary font-headline font-bold tracking-[0.2em] uppercase text-sm mb-4 block">
-              Our Collections
+              {COLLECTION_SECTION.eyebrow}
             </span>
             <h2 className="text-primary font-headline font-extrabold text-4xl md:text-6xl leading-tight">
-              Curated{' '}
-              <span className="font-light italic">Botanicals</span>
+              {COLLECTION_SECTION.headingStart}{' '}
+              <span className="font-light italic">{COLLECTION_SECTION.headingHighlight}</span>
             </h2>
           </motion.div>
           <motion.a
@@ -82,7 +36,7 @@ export default function CollectionSection() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            View All Products
+            {COLLECTION_SECTION.viewAll}
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
               arrow_forward
             </span>
@@ -91,7 +45,7 @@ export default function CollectionSection() {
 
         {/* Grid — 2 rows of 2, first card is tall */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {categories.map((cat, i) => (
+          {CATEGORIES.map((cat, i) => (
             <motion.div
               key={cat.title}
               initial={{ opacity: 0, y: 36 }}

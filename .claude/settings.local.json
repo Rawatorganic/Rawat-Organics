@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(nslookup ac-yzgsnn7-shard-00-00.g8lx18r.mongodb.net)",
+      "Bash(MONGODB_URI=\"mongodb://rawatorganic_db_user:JAC1yRmzBV9syCOg@ac-yzgsnn7-shard-00-00.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-01.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-02.g8lx18r.mongodb.net:27017/rawat/?ssl=true&replicaSet=atlas-awvjcp-shard-0&authSource=admin&appName=Rawat\" npm run seed)",
+      "Bash(MONGODB_URI=\"mongodb://rawatorganic_db_user:JAC1yRmzBV9syCOg@ac-yzgsnn7-shard-00-00.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-01.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-02.g8lx18r.mongodb.net:27017/rawat?ssl=true&replicaSet=atlas-awvjcp-shard-0&authSource=admin&appName=Rawat\" npm run seed)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/admin)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/admin/inquiries\")"
+    ]
+  }
+}
