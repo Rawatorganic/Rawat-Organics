@@ -38,7 +38,7 @@ export const NAV_LINKS = [
   { label: "Whole Spices", href: "/whole-spices" },
   { label: "Powder Spices", href: "/powder-spices" },
   { label: "Our Story", href: "#story" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 export const NAV_CTA = "Inquire" as const;

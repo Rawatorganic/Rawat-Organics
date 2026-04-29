@@ -24,7 +24,6 @@ export default function Navbar() {
 
   const links = NAV_LINKS.map((link) => {
     if (link.href === '#story') return { ...link, href: isHome ? '#story' : '/#story' }
-    if (link.href === '#contact') return { ...link, href: isHome ? '#contact' : '/#contact' }
     return link
   })
 
