@@ -6,13 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "ts-node --project tsconfig.seed.json scripts/seed.ts"
   },
   "dependencies": {
     "@studio-freight/react-lenis": "^0.0.47",
     "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "firebase": "^12.12.1",
     "framer-motion": "^11.2.6",
     "jose": "^6.2.3",
     "lucide-react": "^1.11.0",

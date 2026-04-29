@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   },
 }
 
+import FirebaseAnalytics from '@/components/FirebaseAnalytics'
+
 export default function RootLayout({
   children,
 }: {
@@ -48,6 +50,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <FirebaseAnalytics />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

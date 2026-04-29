@@ -1,12 +1,5 @@
-import AdminSidebar from './components/AdminSidebar'
+import AdminShell from './components/AdminShell'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex min-h-screen bg-[#f7f5f0]">
-      <AdminSidebar />
-      <div className="flex-1 overflow-auto">
-        {children}
-      </div>
-    </div>
-  )
+  return <AdminShell>{children}</AdminShell>
 }
