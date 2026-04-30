@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from "framer-motion";
 import dynamic from "next/dynamic";
+import { HERO } from "@/lib/constants";
 const LightPillar = dynamic(() => import("./LightPillar"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-black" />,
@@ -91,7 +92,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            The Botanical Atelier
+            {HERO.eyebrow}
           </motion.span>
           <motion.h1
             className="text-white font-headline font-extrabold text-5xl md:text-8xl tracking-tighter mb-8 leading-[1.05]"
@@ -103,11 +104,11 @@ export default function HeroSection() {
               ease: [0.25, 0.46, 0.45, 0.94],
             }}
           >
-            Pure.{" "}
+            {HERO.titleStart}{" "}
             <span className="italic font-light text-primary-fixed/90">
-              Natural.
+              {HERO.titleHighlight}
             </span>{" "}
-            Organic.
+            {HERO.titleEnd}
           </motion.h1>
           <motion.p
             className="text-white/80 text-base md:text-xl font-light mb-12 max-w-2xl leading-relaxed"
@@ -115,8 +116,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.75 }}
           >
-            Experience the heritage of soil. A botanical atelier dedicated to
-            cultivating the essence of nature&apos;s most refined harvests.
+            {HERO.subtitle}
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row items-center gap-4"
@@ -128,13 +128,13 @@ export default function HeroSection() {
               href="#collection"
               className="w-full sm:w-auto px-10 py-4 bg-gradient-to-br from-primary-fixed to-primary-fixed-dim text-on-primary-fixed font-headline font-bold text-base rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-2xl"
             >
-              Inquire Now
+              {HERO.primaryCTA}
             </a>
             <a
               href="#story"
               className="w-full sm:w-auto px-10 py-4 bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full font-headline font-bold text-base hover:bg-white/20 transition-all duration-300"
             >
-              Our Story
+              {HERO.secondaryCTA}
             </a>
           </motion.div>
         </motion.div>
@@ -144,7 +144,7 @@ export default function HeroSection() {
           style={{ opacity: indicatorOpacity, zIndex: 30 }}
         >
           <span className="text-white/50 font-headline text-xs tracking-[0.3em] uppercase">
-            Scroll to explore
+            {HERO.scrollLabel}
           </span>
           <div className="scroll-indicator w-px h-14 bg-gradient-to-b from-white/50 to-transparent" />
         </motion.div>

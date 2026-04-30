@@ -2,29 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-
-const values = [
-  {
-    icon: 'verified',
-    title: '100% Organic',
-    description: 'Every product is certified to the highest global organic standards.',
-  },
-  {
-    icon: 'eco',
-    title: 'No Chemicals',
-    description: 'Zero synthetic pesticides or fertilizers, ever. Purely nature\'s design.',
-  },
-  {
-    icon: 'agriculture',
-    title: 'Farm Fresh',
-    description: 'Direct from our botanical atelier to your table, minimizing travel time.',
-  },
-  {
-    icon: 'workspace_premium',
-    title: 'Trusted Quality',
-    description: 'A heritage of excellence spanning three decades of conscious cultivation.',
-  },
-]
+import { VALUES_SECTION, VALUES } from '@/lib/constants'
 
 export default function ValuesSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -51,15 +29,15 @@ export default function ValuesSection() {
           transition={{ duration: 0.8 }}
         >
           <span className="font-headline font-bold tracking-[0.3em] uppercase text-sm text-on-primary/50 block mb-3">
-            Our Promise
+            {VALUES_SECTION.eyebrow}
           </span>
           <h2 className="font-headline font-extrabold text-4xl md:text-5xl">
-            Why Choose Rawat
+            {VALUES_SECTION.heading}
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          {values.map((value, i) => (
+          {VALUES.map((value, i) => (
             <motion.div
               key={value.title}
               className="flex flex-col items-start space-y-5 group"

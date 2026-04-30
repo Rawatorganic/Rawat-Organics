@@ -5,18 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { powderSpices } from '@/lib/products'
-import type { ProductTag } from '@/lib/products'
+import type { ProductTag, FilterTab } from '@/lib/constants'
 import Navbar from '@/components/Navbar'
+import { POWDER_SPICES_PAGE } from '@/lib/constants'
 
-type FilterTab = 'all' | ProductTag
-
-const TABS: { label: string; value: FilterTab }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Spicy', value: 'spicy' },
-  { label: 'Sweet', value: 'sweet' },
-  { label: 'Earthy', value: 'earthy' },
-  { label: 'Aromatic', value: 'aromatic' },
-]
+const TABS = POWDER_SPICES_PAGE.filterTabs
 
 const cardVariant = {
   hidden: { opacity: 0, y: 20 },
@@ -71,7 +64,7 @@ export default function PowderSpicesPage() {
             className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm font-headline mb-12 transition-colors group"
           >
             <span className="material-symbols-outlined transition-transform duration-300 group-hover:-translate-x-1" style={{ fontSize: '16px' }}>arrow_back</span>
-            Back to Home
+            {POWDER_SPICES_PAGE.hero.backLabel}
           </Link>
 
           {/* Badge */}
@@ -82,7 +75,7 @@ export default function PowderSpicesPage() {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <span className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse" />
-            <span className="text-white/70 font-headline font-bold text-xs tracking-[0.2em] uppercase">Premium Collection</span>
+            <span className="text-white/70 font-headline font-bold text-xs tracking-[0.2em] uppercase">{POWDER_SPICES_PAGE.hero.badge}</span>
           </motion.div>
 
           <motion.h1
@@ -91,9 +84,9 @@ export default function PowderSpicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            Artisanal Powders:{' '}
-            <span className="italic font-light text-primary-fixed/80">Pure, Potent,</span>
-            {' '}& Ground with Care
+            {POWDER_SPICES_PAGE.hero.headingStart}{' '}
+            <span className="italic font-light text-primary-fixed/80">{POWDER_SPICES_PAGE.hero.headingHighlight}</span>
+            {' '}{POWDER_SPICES_PAGE.hero.headingEnd}
           </motion.h1>
 
           <motion.p
@@ -116,7 +109,7 @@ export default function PowderSpicesPage() {
               href="#collection"
               className="inline-flex items-center gap-3 px-8 py-3.5 bg-primary-fixed text-primary font-headline font-bold text-sm rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg"
             >
-              Explore Collection
+              {POWDER_SPICES_PAGE.hero.exploreLabel}
               <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>south</span>
             </a>
             <div className="flex items-center gap-3 text-white/30 text-sm font-headline">
@@ -140,10 +133,11 @@ export default function PowderSpicesPage() {
               transition={{ duration: 0.6 }}
             >
               <span className="text-primary/40 font-headline font-bold tracking-[0.25em] uppercase text-xs mb-3 block">
-                Rawat Organics
+                {POWDER_SPICES_PAGE.collection.eyebrow}
               </span>
               <h2 className="text-primary font-headline font-extrabold text-4xl">
-                Finely Ground <span className="font-light italic">Heritage</span>
+                {POWDER_SPICES_PAGE.collection.headingStart}{' '}
+                <span className="font-light italic">{POWDER_SPICES_PAGE.collection.headingHighlight}</span>
               </h2>
             </motion.div>
 
@@ -214,7 +208,7 @@ export default function PowderSpicesPage() {
                         {spice.description}
                       </p>
                       <div className="inline-flex items-center gap-1.5 text-primary font-headline font-bold text-xs tracking-wider uppercase group-hover:gap-3 transition-all duration-300 border border-primary/20 hover:border-primary rounded-full px-4 py-2 self-start">
-                        View Details
+                        {POWDER_SPICES_PAGE.collection.viewDetails}
                         <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>arrow_forward</span>
                       </div>
                     </div>
@@ -236,19 +230,20 @@ export default function PowderSpicesPage() {
             {/* Left */}
             <div>
               <span className="text-primary-fixed/40 font-headline font-bold tracking-[0.25em] uppercase text-xs mb-5 block">
-                Stay Connected
+                {POWDER_SPICES_PAGE.journal.eyebrow}
               </span>
               <h2 className="text-primary-fixed font-headline font-extrabold text-4xl md:text-5xl leading-tight mb-6">
-                The Spice <span className="font-light italic">Journal</span>
+                {POWDER_SPICES_PAGE.journal.headingStart}{' '}
+                <span className="font-light italic">{POWDER_SPICES_PAGE.journal.headingHighlight}</span>
               </h2>
               <p className="text-primary-fixed/55 text-base leading-relaxed mb-8 max-w-md">
-                Reach out for wholesale inquiries, custom blends, or to learn more about our sourcing practices and farm partnerships.
+                {POWDER_SPICES_PAGE.journal.description}
               </p>
               <a
-                href="mailto:hello@rawatorganics.com?subject=Wholesale Inquiry — Powder Spices"
+                href={POWDER_SPICES_PAGE.journal.ctaHref}
                 className="inline-flex items-center gap-3 px-8 py-4 bg-primary-fixed text-primary font-headline font-bold text-sm rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-2xl"
               >
-                Get in Touch
+                {POWDER_SPICES_PAGE.journal.ctaLabel}
                 <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>north_east</span>
               </a>
             </div>

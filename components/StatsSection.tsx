@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
+import { STATS } from '@/lib/constants'
 
 function useCounter(target: number, duration: number, inView: boolean) {
   const [count, setCount] = useState(0)
@@ -25,38 +26,7 @@ function useCounter(target: number, duration: number, inView: boolean) {
   return count
 }
 
-const stats = [
-  {
-    value: 30,
-    suffix: '+',
-    label: 'Years of Heritage',
-    sub: 'Three decades cultivating trust',
-    icon: 'history',
-  },
-  {
-    value: 100,
-    suffix: '%',
-    label: 'Organic Certified',
-    sub: 'Every product, every single batch',
-    icon: 'verified',
-  },
-  {
-    value: 50,
-    suffix: '+',
-    label: 'Spice Varieties',
-    sub: 'From rare heirloom varietals',
-    icon: 'grass',
-  },
-  {
-    value: 0,
-    suffix: '',
-    label: 'Chemicals Used',
-    sub: 'Purely by nature\'s design',
-    icon: 'eco',
-  },
-]
-
-function StatCard({ stat, i, inView }: { stat: typeof stats[0]; i: number; inView: boolean }) {
+function StatCard({ stat, i, inView }: { stat: typeof STATS[0]; i: number; inView: boolean }) {
   const count = useCounter(stat.value, 1600, inView)
 
   return (
@@ -90,7 +60,7 @@ export default function StatsSection() {
     <section className="bg-surface-container-low py-4 overflow-hidden" ref={ref}>
       <div className="max-w-screen-2xl mx-auto px-0">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 divide-outline-variant/20 border-y border-outline-variant/20">
-          {stats.map((stat, i) => (
+          {STATS.map((stat, i) => (
             <StatCard key={stat.label} stat={stat} i={i} inView={inView} />
           ))}
         </div>

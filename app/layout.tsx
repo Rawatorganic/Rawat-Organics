@@ -7,12 +7,28 @@ export const metadata: Metadata = {
   description:
     'Experience the heritage of soil. A botanical atelier dedicated to cultivating the essence of nature\'s most refined harvests. 100% organic, farm fresh, no chemicals.',
   keywords: 'organic, farm, grains, spices, oils, dry fruits, botanical, heritage, sustainable',
+  icons: {
+    icon: [
+      { url: '/logo/favicon.ico', sizes: 'any' },
+      { url: '/logo/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/logo/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'icon', url: '/logo/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { rel: 'icon', url: '/logo/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: 'Rawat Organics | The Botanical Atelier',
     description: 'Cultivating the essence of nature through ancient wisdom and modern precision.',
     type: 'website',
   },
 }
+
+import FirebaseAnalytics from '@/components/FirebaseAnalytics'
 
 export default function RootLayout({
   children,
@@ -34,6 +50,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <FirebaseAnalytics />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
