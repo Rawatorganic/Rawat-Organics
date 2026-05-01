@@ -1,12 +1,38 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import SmoothScroll from '@/components/SmoothScroll'
+import FirebaseAnalytics from '@/components/FirebaseAnalytics'
+import JsonLd from '@/components/JsonLd'
+import { SITE } from '@/lib/seo'
 
 export const metadata: Metadata = {
-  title: 'Rawat Organics | The Botanical Atelier',
-  description:
-    'Experience the heritage of soil. A botanical atelier dedicated to cultivating the essence of nature\'s most refined harvests. 100% organic, farm fresh, no chemicals.',
-  keywords: 'organic, farm, grains, spices, oils, dry fruits, botanical, heritage, sustainable',
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: `${SITE.name} | ${SITE.tagline}`,
+    template: `%s | ${SITE.name}`,
+  },
+  description: SITE.description,
+  keywords: [...SITE.keywords],
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  category: 'Food & Beverage',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: [
       { url: '/logo/favicon.ico', sizes: 'any' },
@@ -21,22 +47,99 @@ export const metadata: Metadata = {
       { rel: 'icon', url: '/logo/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
   },
+  manifest: '/manifest.webmanifest',
   openGraph: {
-    title: 'Rawat Organics | The Botanical Atelier',
-    description: 'Cultivating the essence of nature through ancient wisdom and modern precision.',
     type: 'website',
+    locale: SITE.locale,
+    url: SITE.url,
+    siteName: SITE.name,
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: [
+      {
+        url: SITE.ogImage,
+        width: 1200,
+        height: 630,
+        alt: SITE.ogImageAlt,
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE.name} | ${SITE.tagline}`,
+    description: SITE.description,
+    images: [SITE.ogImage],
+    creator: SITE.twitterHandle,
+    site: SITE.twitterHandle,
+  },
+  formatDetection: { email: false, address: false, telephone: false },
 }
 
-import FirebaseAnalytics from '@/components/FirebaseAnalytics'
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7f5f0' },
+    { media: '(prefers-color-scheme: dark)',  color: '#021c10' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+}
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#organization`,
+  name: SITE.name,
+  legalName: SITE.name,
+  url: SITE.url,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE.url}/logo/android-chrome-512x512.png`,
+    width: 512,
+    height: 512,
+  },
+  image: `${SITE.url}${SITE.ogImage}`,
+  description: SITE.description,
+  email: SITE.email,
+  foundingDate: '1994',
+  slogan: SITE.tagline,
+  knowsAbout: [
+    'Organic Spices',
+    'Whole Spices',
+    'Powder Spices',
+    'Indian Masala',
+    'Sustainable Farming',
+    'Chemical-Free Agriculture',
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: SITE.email,
+      availableLanguage: ['English', 'Hindi'],
+      areaServed: 'IN',
+    },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'IN',
+  },
+  sameAs: [],
+}
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  url: SITE.url,
+  name: SITE.name,
+  description: SITE.description,
+  inLanguage: SITE.language,
+  publisher: { '@id': `${SITE.url}/#organization` },
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang={SITE.language}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -48,6 +151,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
           rel="stylesheet"
         />
+        <JsonLd data={[organizationSchema, websiteSchema]} />
       </head>
       <body>
         <FirebaseAnalytics />

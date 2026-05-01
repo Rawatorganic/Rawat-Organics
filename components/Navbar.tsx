@@ -53,28 +53,35 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-7 font-headline tracking-tight font-semibold text-sm">
+        <ul
+          role="menubar"
+          aria-label="Primary"
+          className="hidden md:flex items-center gap-7 font-headline tracking-tight font-semibold text-sm list-none m-0 p-0"
+        >
           {links.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className={`relative transition-colors duration-300 group ${
-                scrolled
-                  ? isActive(link.href)
-                    ? 'text-primary'
-                    : 'text-on-surface/70 hover:text-primary'
-                  : 'text-white/80 hover:text-white'
-              }`}
-            >
-              {link.label}
-              <span
-                className={`absolute -bottom-1 left-0 h-px bg-current transition-all duration-300 ${
-                  isActive(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
+            <li key={link.label} role="none">
+              <Link
+                href={link.href}
+                role="menuitem"
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`relative transition-colors duration-300 group ${
+                  scrolled
+                    ? isActive(link.href)
+                      ? 'text-primary'
+                      : 'text-on-surface/70 hover:text-primary'
+                    : 'text-white/80 hover:text-white'
                 }`}
-              />
-            </Link>
+              >
+                {link.label}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-current transition-all duration-300 ${
+                    isActive(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
 
         {/* CTA Button */}
         <div className="flex items-center gap-4">
@@ -116,27 +123,31 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-surface/98 backdrop-blur-xl border-t border-outline-variant/20 px-6 pb-6 overflow-hidden"
           >
-            <div className="flex flex-col gap-1 pt-4">
+            <ul aria-label="Mobile primary" className="flex flex-col gap-1 pt-4 list-none m-0 p-0">
               {links.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    aria-current={isActive(link.href) ? 'page' : undefined}
+                    className={`block text-on-surface font-headline font-semibold text-base py-3 border-b border-outline-variant/20 transition-colors ${
+                      isActive(link.href) ? 'text-primary' : 'hover:text-primary'
+                    }`}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
                 <Link
-                  key={link.label}
-                  href={link.href}
-                  className={`text-on-surface font-headline font-semibold text-base py-3 border-b border-outline-variant/20 transition-colors ${
-                    isActive(link.href) ? 'text-primary' : 'hover:text-primary'
-                  }`}
+                  href={isHome ? '#contact' : '/#contact'}
+                  className="mt-3 block px-6 py-3 bg-primary text-primary-fixed rounded-full font-headline font-bold text-sm text-center"
                   onClick={() => setMobileOpen(false)}
                 >
-                  {link.label}
+                  Inquire Now
                 </Link>
-              ))}
-              <Link
-                href={isHome ? '#contact' : '/#contact'}
-                className="mt-3 px-6 py-3 bg-primary text-primary-fixed rounded-full font-headline font-bold text-sm text-center"
-                onClick={() => setMobileOpen(false)}
-              >
-                Inquire Now
-              </Link>
-            </div>
+              </li>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
