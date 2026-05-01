@@ -139,28 +139,28 @@ export const CATEGORIES = [
     href: "/powder-spices",
     bg: "bg-yellow-950/10",
   },
-  {
-    title: "Seeds & Grains",
-    description:
-      "Heirloom seeds harvested at peak potency — rich in nutrition and bursting with the earthy vitality of regenerative soil.",
-    imgSrc: "/products/fennel.png",
-    imgAlt: "Fennel seeds and heritage grains",
-    badge: "Heritage",
-    badgeIcon: "eco",
-    href: "/product",
-    bg: "bg-green-950/10",
-  },
-  {
-    title: "Blends & Mixes",
-    description:
-      "Expertly crafted spice blends born from generations of culinary tradition, balanced for perfection in every pinch.",
-    imgSrc: "/products/spice-mix.png",
-    imgAlt: "Curated spice blends and mixes",
-    badge: "New Arrival",
-    badgeIcon: "new_releases",
-    href: "/product",
-    bg: "bg-rose-950/10",
-  },
+  // {
+  //   title: "Seeds & Grains",
+  //   description:
+  //     "Heirloom seeds harvested at peak potency — rich in nutrition and bursting with the earthy vitality of regenerative soil.",
+  //   imgSrc: "/products/fennel.png",
+  //   imgAlt: "Fennel seeds and heritage grains",
+  //   badge: "Heritage",
+  //   badgeIcon: "eco",
+  //   href: "/product",
+  //   bg: "bg-green-950/10",
+  // },
+  // {
+  //   title: "Blends & Mixes",
+  //   description:
+  //     "Expertly crafted spice blends born from generations of culinary tradition, balanced for perfection in every pinch.",
+  //   imgSrc: "/products/spice-mix.png",
+  //   imgAlt: "Curated spice blends and mixes",
+  //   badge: "New Arrival",
+  //   badgeIcon: "new_releases",
+  //   href: "/product",
+  //   bg: "bg-rose-950/10",
+  // },
 ];
 
 // ─── Process Section ──────────────────────────────────────────────────────────

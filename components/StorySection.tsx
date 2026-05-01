@@ -2,10 +2,63 @@
 
 import { motion, useInView } from 'framer-motion'
 import BlurText from './ui/BlurText'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { STORY } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 
+function WobbleCard({ children, containerClassName, className }: { children: React.ReactNode, containerClassName?: string, className?: string }) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
+    const { clientX, clientY } = event;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (clientX - (rect.left + rect.width / 2)) / 20;
+    const y = (clientY - (rect.top + rect.height / 2)) / 20;
+    setMousePosition({ x, y });
+  };
+  return (
+    <motion.section
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => {
+        setIsHovering(false);
+        setMousePosition({ x: 0, y: 0 });
+      }}
+      style={{
+        transform: isHovering
+          ? `translate3d(${mousePosition.x}px, ${mousePosition.y}px, 0) scale3d(1, 1, 1)`
+          : "translate3d(0px, 0px, 0) scale3d(1, 1, 1)",
+        transition: "transform 0.1s ease-out",
+      }}
+      className={cn(
+        "mx-auto w-full relative rounded-3xl overflow-hidden",
+        containerClassName
+      )}
+    >
+      <div
+        className="relative h-full sm:mx-0 sm:rounded-3xl overflow-hidden"
+        style={{
+          boxShadow:
+            "0 10px 32px rgba(34, 42, 53, 0.12), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.05), 0 4px 6px rgba(34, 42, 53, 0.08), 0 24px 108px rgba(47, 48, 55, 0.10)",
+        }}
+      >
+        <motion.div
+          style={{
+            transform: isHovering
+              ? `translate3d(${-mousePosition.x}px, ${-mousePosition.y}px, 0) scale3d(1.03, 1.03, 1)`
+              : "translate3d(0px, 0px, 0) scale3d(1, 1, 1)",
+            transition: "transform 0.1s ease-out",
+          }}
+          className={cn("h-full", className)}
+        >
+          {children}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
 export default function StorySection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-100px' })
@@ -22,23 +75,27 @@ export default function StorySection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Image stack */}
           <motion.div className="lg:col-span-5 relative" {...fadeUp(0)}>
-            <div className="relative z-10 aspect-[4/5] rounded-3xl overflow-hidden editorial-shadow">
+            <WobbleCard 
+              containerClassName="relative z-10 aspect-[4/5] rounded-3xl overflow-hidden editorial-shadow"
+            >
               <Image
                 src="/cardImages/image-2.png"
                 alt="Hands holding fresh organic soil with green sprouts"
                 fill
                 className="object-cover"
               />
-            </div>
+            </WobbleCard>
             {/* Decorative inset image */}
-            <div className="absolute -bottom-12 -right-12 w-2/3 aspect-square rounded-3xl overflow-hidden editorial-shadow border-8 border-surface z-20 hidden md:block">
+            <WobbleCard 
+              containerClassName="absolute -bottom-12 -right-12 w-2/3 aspect-square rounded-3xl overflow-hidden editorial-shadow border-8 border-surface z-20 hidden md:block"
+            >
               <Image
                 src="/cardImages/image-1.png"
                 alt="Organic lentils and seeds arranged in rustic wooden bowls"
                 fill
                 className="object-cover"
               />
-            </div>
+            </WobbleCard>
           </motion.div>
 
           {/* Text content */}

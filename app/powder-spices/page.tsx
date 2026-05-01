@@ -5,28 +5,35 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { powderSpices } from '@/lib/products'
-import type { ProductTag, FilterTab } from '@/lib/constants'
+import type { FilterTab } from '@/lib/constants'
 import Navbar from '@/components/Navbar'
 import { POWDER_SPICES_PAGE } from '@/lib/constants'
 
 const TABS = POWDER_SPICES_PAGE.filterTabs
 
-const cardVariant = {
-  hidden: { opacity: 0, y: 20 },
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.05, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.65, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] },
   }),
-  exit: { opacity: 0, scale: 0.96, transition: { duration: 0.2 } },
+  exit: { opacity: 0, scale: 0.97, transition: { duration: 0.22 } },
 }
 
 export default function PowderSpicesPage() {
   const [activeFilter, setActiveFilter] = useState<FilterTab>('all')
 
-  const filtered = activeFilter === 'all'
-    ? powderSpices
-    : powderSpices.filter((p) => p.tags.includes(activeFilter))
+  const filtered =
+    activeFilter === 'all'
+      ? powderSpices
+      : powderSpices.filter((p) => p.tags.includes(activeFilter))
+
+  // Split into pairs for bento rows
+  const pairs: (typeof powderSpices)[] = []
+  for (let i = 0; i < filtered.length; i += 2) {
+    pairs.push(filtered.slice(i, i + 2))
+  }
 
   return (
     <main className="bg-[#f7f5f0] min-h-screen">
@@ -95,7 +102,7 @@ export default function PowderSpicesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            Cold-milled at low temperature to preserve volatile oils and vivid color.
+            Cold-milled at low temperature to preserve volatile oils and vivid color.{' '}
             {powderSpices.length} botanicals ground to their purest, most potent form.
           </motion.p>
 
@@ -121,7 +128,7 @@ export default function PowderSpicesPage() {
       </section>
 
       {/* ── Collection with filters ──────────────────────────────────────────── */}
-      <section className="py-20 px-6 md:px-16" id="collection">
+      <section className="py-20 px-6 md:px-12 lg:px-16" id="collection">
         <div className="max-w-screen-2xl mx-auto">
 
           {/* Section header + filter tabs */}
@@ -135,7 +142,7 @@ export default function PowderSpicesPage() {
               <span className="text-primary/40 font-headline font-bold tracking-[0.25em] uppercase text-xs mb-3 block">
                 {POWDER_SPICES_PAGE.collection.eyebrow}
               </span>
-              <h2 className="text-primary font-headline font-extrabold text-4xl">
+              <h2 className="text-primary font-headline font-extrabold text-4xl md:text-5xl">
                 {POWDER_SPICES_PAGE.collection.headingStart}{' '}
                 <span className="font-light italic">{POWDER_SPICES_PAGE.collection.headingHighlight}</span>
               </h2>
@@ -164,59 +171,128 @@ export default function PowderSpicesPage() {
             </motion.div>
           </div>
 
-          {/* Product grid */}
-          <motion.div
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-          >
+          {/* Bento rows — alternating 3fr 2fr / 2fr 3fr, same as whole-spices */}
+          <div className="flex flex-col gap-5">
             <AnimatePresence mode="popLayout">
-              {filtered.map((spice, i) => (
+              {pairs.map((pair, rowIdx) => (
                 <motion.div
-                  key={spice.slug}
+                  key={pair.map((s) => s.slug).join('-')}
                   layout
-                  custom={i}
-                  variants={cardVariant}
-                  initial="hidden"
-                  animate="show"
-                  exit="exit"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className={`grid gap-5 ${
+                    pair.length === 1
+                      ? 'grid-cols-1'
+                      : rowIdx % 2 === 0
+                      ? 'grid-cols-1 md:grid-cols-[3fr_2fr]'
+                      : 'grid-cols-1 md:grid-cols-[2fr_3fr]'
+                  }`}
                 >
-                  <Link
-                    href={`/powder-spices/${spice.slug}`}
-                    className="group flex flex-col bg-white rounded-2xl border border-outline-variant/20 hover:border-primary/20 hover:shadow-xl transition-all duration-300 overflow-hidden h-full"
-                  >
-                    {/* Image */}
-                    <div className="relative aspect-square overflow-hidden bg-[#f0ede6]">
-                      <Image
-                        src={spice.primaryImage}
-                        alt={spice.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-600"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div
-                        className="absolute top-3 left-3 w-3 h-3 rounded-full shadow-md"
-                        style={{ backgroundColor: spice.color }}
-                      />
-                    </div>
+                  {pair.map((spice, colIdx) => {
+                    const isLarge =
+                      pair.length === 1 ||
+                      (rowIdx % 2 === 0 ? colIdx === 0 : colIdx === 1)
+                    const cardIdx = rowIdx * 2 + colIdx
 
-                    {/* Content */}
-                    <div className="p-5 flex flex-col flex-grow">
-                      <h3 className="font-headline font-extrabold text-primary text-lg mb-2 group-hover:translate-x-0.5 transition-transform duration-300 leading-tight">
-                        {spice.name}
-                      </h3>
-                      <p className="text-on-surface/50 text-xs leading-relaxed flex-grow mb-5 line-clamp-3">
-                        {spice.description}
-                      </p>
-                      <div className="inline-flex items-center gap-1.5 text-primary font-headline font-bold text-xs tracking-wider uppercase group-hover:gap-3 transition-all duration-300 border border-primary/20 hover:border-primary rounded-full px-4 py-2 self-start">
-                        {POWDER_SPICES_PAGE.collection.viewDetails}
-                        <span className="material-symbols-outlined" style={{ fontSize: '13px' }}>arrow_forward</span>
-                      </div>
-                    </div>
-                  </Link>
+                    return (
+                      <motion.div
+                        key={spice.slug}
+                        custom={cardIdx}
+                        variants={fadeUp}
+                        initial="hidden"
+                        animate="show"
+                        exit="exit"
+                        layout
+                        viewport={{ once: true, margin: '-40px' }}
+                      >
+                        <Link
+                          href={`/powder-spices/${spice.slug}`}
+                          className="group block relative overflow-hidden rounded-2xl bg-[#021c10]"
+                          style={{ aspectRatio: isLarge ? '16/10' : '4/3' }}
+                        >
+                          {/* Product image */}
+                          <Image
+                            src={spice.primaryImage}
+                            alt={spice.name}
+                            fill
+                            className="object-cover opacity-60 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:opacity-70"
+                          />
+
+                          {/* Gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#021c10] via-[#021c10]/30 to-transparent" />
+
+                          {/* Content overlay */}
+                          <div className="absolute inset-0 p-7 flex flex-col justify-between">
+                            {/* Top: tag badge + arrow */}
+                            <div className="flex items-start justify-between">
+                              <span
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-headline font-bold tracking-widest uppercase"
+                                style={{
+                                  backgroundColor: `${spice.color}25`,
+                                  color: spice.color,
+                                  border: `1px solid ${spice.color}40`,
+                                }}
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: spice.color }} />
+                                {spice.tags[0] ?? 'Powder'}
+                              </span>
+
+                              <span
+                                className="material-symbols-outlined text-white/0 group-hover:text-white/80 -translate-x-2 translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500"
+                                style={{ fontSize: '22px' }}
+                              >
+                                north_east
+                              </span>
+                            </div>
+
+                            {/* Bottom: name + description + CTA */}
+                            <div>
+                              <h3 className="text-white font-headline font-extrabold text-2xl md:text-3xl mb-2 leading-tight">
+                                {spice.name}
+                              </h3>
+                              <p className="text-white/55 text-xs md:text-sm leading-relaxed max-w-xs line-clamp-2">
+                                {spice.description}
+                              </p>
+                              <div className="mt-5 inline-flex items-center gap-2 text-white/70 group-hover:text-white font-headline font-semibold text-xs tracking-wider uppercase transition-colors duration-300">
+                                {POWDER_SPICES_PAGE.collection.viewDetails}
+                                <span
+                                  className="material-symbols-outlined transition-transform duration-300 group-hover:translate-x-1"
+                                  style={{ fontSize: '14px' }}
+                                >
+                                  arrow_forward
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    )
+                  })}
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
+
+          {/* Empty state */}
+          {filtered.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-24"
+            >
+              <p className="font-headline font-semibold text-on-surface/30 text-lg">
+                No spices match this filter.
+              </p>
+              <button
+                onClick={() => setActiveFilter('all')}
+                className="mt-4 text-sm font-headline text-primary underline underline-offset-4"
+              >
+                Show all
+              </button>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -248,7 +324,7 @@ export default function PowderSpicesPage() {
               </a>
             </div>
 
-            {/* Right: decorative */}
+            {/* Right: decorative rings */}
             <div className="flex items-center justify-center lg:justify-end">
               <div className="relative w-48 h-48 md:w-64 md:h-64">
                 <div className="absolute inset-0 rounded-full bg-primary-fixed/5 border border-primary-fixed/10" />
