@@ -3,6 +3,7 @@ import './globals.css'
 import SmoothScroll from '@/components/SmoothScroll'
 import FirebaseAnalytics from '@/components/FirebaseAnalytics'
 import JsonLd from '@/components/JsonLd'
+import MainLoader from '@/components/mainLoader'
 import { SITE } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -154,6 +155,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={[organizationSchema, websiteSchema]} />
       </head>
       <body>
+        <MainLoader />
         <FirebaseAnalytics />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
