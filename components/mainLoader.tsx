@@ -3,8 +3,8 @@
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-const TREE_COLOR = '#2D1208'  // deep cinnamon — matches new primary
-const LEAF_COLOR = '#B8541F'  // saffron orange — matches new secondary
+const TREE_COLOR = '#0D4D26'
+const LEAF_COLOR = '#0DAC4B'
 
 // Cinematic timing — entry (seconds)
 const DRAW_START      = 0.4
