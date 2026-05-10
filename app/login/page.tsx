@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { BRAND } from "@/lib/constants";
+import Image from "next/image";
 
 const LightPillar = dynamic(() => import("@/components/LightPillar"), {
   ssr: false,
@@ -96,15 +97,14 @@ export default function LoginPage() {
             {/* Logo / Brand */}
             <div className="text-center mb-10">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/10 mb-5 shadow-[0_0_30px_rgba(16,185,162,0.2)]">
-                <span
-                  className="material-symbols-outlined text-primary-fixed"
-                  style={{
-                    fontSize: "32px",
-                    fontVariationSettings: "'FILL' 1",
-                  }}
-                >
-                  eco
-                </span>
+
+                <Image
+                  src={"/rawat-white.svg"}
+                  alt={BRAND.name}
+                  width={100}
+                  height={100}
+                  className="transition-opacity duration-300"
+                />
               </div>
               <h1 className="font-headline font-extrabold text-2xl text-white tracking-tight">
                 {BRAND.fullName}
