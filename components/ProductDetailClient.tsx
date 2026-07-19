@@ -4,14 +4,14 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import type { Product } from '@/lib/products'
+import type { ProductData } from '@/lib/catalog-types'
 import SpotlightCard from '@/components/ui/SpotlightCard'
 
 const SIZES = ['50g', '100g', '250g', '500g', '1kg']
 
 interface Props {
-  product: Product
-  related: Product[]
+  product: ProductData
+  related: ProductData[]
   categoryLabel: string
   categoryHref: string
 }

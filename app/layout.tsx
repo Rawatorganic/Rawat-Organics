@@ -4,6 +4,7 @@ import SmoothScroll from '@/components/SmoothScroll'
 import FirebaseAnalytics from '@/components/FirebaseAnalytics'
 import JsonLd from '@/components/JsonLd'
 import MainLoader from '@/components/mainLoader'
+import CatalogHydrator from '@/components/CatalogHydrator'
 import { SITE } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -156,6 +157,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MainLoader />
+        <CatalogHydrator />
         <FirebaseAnalytics />
         <SmoothScroll>{children}</SmoothScroll>
       </body>

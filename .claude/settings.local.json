@@ -6,7 +6,33 @@
       "Bash(MONGODB_URI=\"mongodb://rawatorganic_db_user:JAC1yRmzBV9syCOg@ac-yzgsnn7-shard-00-00.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-01.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-02.g8lx18r.mongodb.net:27017/rawat/?ssl=true&replicaSet=atlas-awvjcp-shard-0&authSource=admin&appName=Rawat\" npm run seed)",
       "Bash(MONGODB_URI=\"mongodb://rawatorganic_db_user:JAC1yRmzBV9syCOg@ac-yzgsnn7-shard-00-00.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-01.g8lx18r.mongodb.net:27017,ac-yzgsnn7-shard-00-02.g8lx18r.mongodb.net:27017/rawat?ssl=true&replicaSet=atlas-awvjcp-shard-0&authSource=admin&appName=Rawat\" npm run seed)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/admin)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/admin/inquiries\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:3000/admin/inquiries\")",
+      "Bash(cd \"d:/PVT-JERRY/Rawat\" && mkdir -p public/uploads && touch public/uploads/.gitkeep && mkdir -p app/api/categories/[id] app/api/products/[id] && echo \"dirs created\")",
+      "Bash(cd \"d:/PVT-JERRY/Rawat\" && mkdir -p \"app/[category]/[slug]\" && echo \"created dynamic route dirs\")",
+      "Bash(rm -rf .next)",
+      "Bash(npx next *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/api/categories)",
+      "Bash(curl -s http://localhost:3000/api/categories)",
+      "Bash(curl -s \"http://localhost:3000/api/products?category=whole-spices\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('products:',j.products.length,'| first:',j.products[0]?.name,'->',j.products[0]?.slug\\)}\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/whole-spices)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/whole-spices/cumin)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/nope)",
+      "Bash(tail -40 /tmp/rawat-dev.log 2>&1)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/whole-spices)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/powder-spices)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/whole-spices/cumin)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/nope)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/)",
+      "Bash(curl -s http://localhost:3001/whole-spices/cumin)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST http://localhost:3001/api/upload)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST http://localhost:3001/api/categories -H \"Content-Type: application/json\" -d '{\"name\":\"Hacker\"}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/admin/products)"
+    ],
+    "additionalDirectories": [
+      "D:\\PVT-JERRY\\Rawat\\app\\api\\categories",
+      "D:\\PVT-JERRY\\Rawat\\app\\[category]"
     ]
   }
 }

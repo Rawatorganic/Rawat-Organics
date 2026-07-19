@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BRAND, NAV_LINKS, NAV_CTA } from '@/lib/constants'
+import { BRAND, NAV_CTA } from '@/lib/constants'
+import { useCatalogStore } from '@/lib/store/catalogStore'
 import Image from 'next/image'
 
 export default function Navbar() {
@@ -13,6 +14,10 @@ export default function Navbar() {
   const pathname = usePathname()
 
   const isHome = pathname === '/'
+
+  const categories = useCatalogStore((s) => s.categories)
+  const catStatus = useCatalogStore((s) => s.status)
+  const fetchCategories = useCatalogStore((s) => s.fetchCategories)
 
   useEffect(() => {
     const onScroll = () => {
@@ -23,10 +28,20 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [isHome])
 
-  const links = NAV_LINKS.map((link) => {
-    if (link.href === '#story') return { ...link, href: isHome ? '#story' : '/#story' }
-    return link
-  })
+  // Ensure categories are available even if the navbar mounts before the hydrator.
+  useEffect(() => {
+    fetchCategories()
+  }, [fetchCategories])
+
+  // Home → dynamic categories → Our Story → Contact
+  const links = [
+    { label: 'Home', href: '/' },
+    ...categories.map((c) => ({ label: c.name, href: `/${c.slug}` })),
+    { label: 'Our Story', href: isHome ? '#story' : '/#story' },
+    { label: 'Contact', href: '/contact' },
+  ]
+
+  const showCatSkeleton = catStatus === 'loading' && categories.length === 0
 
   const isActive = (href: string) =>
     href !== '/' && pathname.startsWith(href.replace('#', '').split('#')[0])
@@ -86,6 +101,16 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          {showCatSkeleton &&
+            [0, 1].map((i) => (
+              <li key={`cat-skel-${i}`} role="none" aria-hidden="true">
+                <span
+                  className={`block h-3.5 w-20 rounded-full animate-pulse ${
+                    scrolled ? 'bg-on-surface/10' : 'bg-white/20'
+                  }`}
+                />
+              </li>
+            ))}
         </ul>
 
         {/* CTA Button */}

@@ -13,6 +13,7 @@ interface Props {
 
 const navItems = [
   { href: '/admin',        label: 'Dashboard',  icon: 'dashboard' },
+  { href: '/admin/products', label: 'Products', icon: 'inventory_2' },
   { href: '/admin/inquiries', label: 'Inquiries', icon: 'mail' },
 ]
 
